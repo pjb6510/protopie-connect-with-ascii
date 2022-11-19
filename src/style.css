@@ -1,0 +1,14 @@
+html,
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  font-family: Courier;
+  font-size: 18px;
+  line-height: 10px;
+  color: #fff;
+}
