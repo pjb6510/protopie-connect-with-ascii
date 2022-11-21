@@ -1,7 +1,10 @@
 import './style.css';
 import p5 from 'p5';
+import { connectSocket, sendMessage } from './socketIO';
 
 const sketch = (s: p5) => {
+  const socket = connectSocket();
+
   const density = 'ÑÑ@@##WW$$??!!;;::++==--,,..__      ';
 
   const video = s.createCapture(s.VIDEO) as any;
@@ -16,7 +19,8 @@ const sketch = (s: p5) => {
   s.draw = () => {
     video.loadPixels();
 
-    let asciiImage = '';
+    let asciiHtml = '';
+    let asciiSocketMessage = '';
 
     for (let i = 0; i < video.width; i++) {
       for (let j = 0; j < video.height; j++) {
@@ -31,14 +35,22 @@ const sketch = (s: p5) => {
         const charIndex = s.floor(s.map(avg, 0, 255, len, 0));
 
         const char = density.charAt(charIndex);
-        if (char === ' ') asciiImage += '&nbsp;';
-        else asciiImage += char;
+
+        if (char === ' ') {
+          asciiHtml += '&nbsp;';
+        } else {
+          asciiHtml += char;
+        }
+
+        asciiSocketMessage += char;
       }
 
-      asciiImage += '<br/>';
+      asciiHtml += '<br/>';
+      asciiSocketMessage += '\n';
     }
 
-    asciiDiv.html(asciiImage);
+    asciiDiv.html(asciiHtml);
+    sendMessage(socket, 'ascii', asciiSocketMessage);
   };
 };
 
