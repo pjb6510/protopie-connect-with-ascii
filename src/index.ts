@@ -12,7 +12,7 @@ const sketch = (s: p5) => {
 
   s.setup = () => {
     s.noCanvas();
-    video.size(60, 60);
+    video.size(200, 200);
     video.hide();
   };
 
